@@ -99,12 +99,26 @@ const FileInputBase: ForwardRefRenderFunction<
         cancelToken: source.token,
       } as AxiosRequestConfig;
 
+      console.log('FileInput ===> event.target.name: ', event.target.name);
+      console.log(
+        'FileInput ===> event.target.files[0]: ',
+        event.target.files[0]
+      );
+      console.log(
+        'FileInput ===> process.env.NEXT_PUBLIC_IMGBB_API_KEY: ',
+        process.env.NEXT_PUBLIC_IMGBB_API_KEY
+      );
+      console.log('FileInput ===> formData: ', formData);
+      console.log('FileInput ===> config: ', config);
+
       try {
         const response = await api.post(
           'https://api.imgbb.com/1/upload',
           formData,
           config
         );
+
+        console.log('FileInput ===> response: ', response);
 
         setImageUrl(response.data.data.url);
         setLocalImageUrl(URL.createObjectURL(event.target.files[0]));
