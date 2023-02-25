@@ -9,17 +9,15 @@ import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 
 export default function Home(): JSX.Element {
-  const fetchImages = async ({ pageParam = null }) => {
-    const res = await api.get(`/api/images`, {
+  async function fetchImages({ pageParam = null }) {
+    const response = await api.get('/api/images', {
       params: {
         after: pageParam,
       },
     });
 
-    return res.data;
-  };
-
-  console.log('Home ===> fetchImages: ', fetchImages);
+    return response.data;
+  }
 
   const {
     data,
@@ -29,18 +27,16 @@ export default function Home(): JSX.Element {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery('images', fetchImages, {
-    getNextPageParam: lastPage => lastPage.nextCursor,
+    getNextPageParam: lastPage => lastPage.after,
   });
-
-  console.log('data: ', data);
 
   const formattedData = useMemo(() => {
     if (!data) return [];
 
-    return data.pages[0].data.map(dataImage => dataImage);
-  }, [data]);
+    const mapData = data.pages.map(dataPages => dataPages.data);
 
-  console.log('formattedData: ', formattedData);
+    return mapData.flat();
+  }, [data]);
 
   if (isLoading) {
     return <Loading />;

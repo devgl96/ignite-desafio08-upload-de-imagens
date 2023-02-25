@@ -74,7 +74,6 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
     try {
-      console.log('onSubmit running...');
       if (!imageUrl) {
         toast({
           title: 'Imagem não adicionada',
@@ -103,6 +102,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       });
     } catch (e) {
       console.error('Erro ao cadastrar a imagem: ', e);
+
       toast({
         title: 'Falha no cadastro',
         description: 'Ocorreu um erro ao tentar cadastrar a sua imagem.',
